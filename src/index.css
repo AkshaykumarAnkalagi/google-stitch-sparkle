@@ -234,3 +234,45 @@ All colors MUST be HSL.
     transform: rotateY(5deg) rotateX(5deg) translateZ(20px);
   }
 }
+
+/* Magnetic Particle Button */
+.magnetic {
+  @apply relative overflow-hidden px-6 py-3 font-semibold rounded text-white bg-primary transition-smooth;
+}
+
+.magnetic .particles-field {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.magnetic:hover .particles-field {
+  opacity: 1;
+}
+
+.magnetic .particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+}
+
+@keyframes particleFloat {
+  0% { transform: translate(var(--x), var(--y)) scale(0); }
+  50% { transform: translate(calc(var(--x) * -1), calc(var(--y) * -1)) scale(1); }
+  100% { transform: translate(var(--x), var(--y)) scale(0); }
+}
+
+
+
+/* Global zoom hover for all product cards */
+.product {
+  @apply transition-transform duration-300 ease-in-out;
+}
+
+.product:hover {
+  transform: scale(1.05);
+}

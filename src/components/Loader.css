@@ -1,0 +1,53 @@
+/* Explosive burst effect - works on hover and on load */
+.explosive-text:hover::before,
+.explosive-text:hover::after,
+.explosive-text.animate-burst::before,
+.explosive-text.animate-burst::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  animation: burst 0.8s ease-out forwards;
+}
+
+.explosive-text:hover::before,
+.explosive-text.animate-burst::before {
+  background: radial-gradient(circle, rgba(255, 0, 150, 0.6), transparent);
+  z-index: -1;
+}
+
+.explosive-text:hover::after,
+.explosive-text.animate-burst::after {
+  background: radial-gradient(circle, rgba(0, 200, 255, 0.6), transparent);
+  z-index: -2;
+}
+
+@keyframes burst {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Loader background gradient */
+.bg-gradient-hero {
+  background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+}
+
+/* Optional: smooth font rendering */
+.explosive-text {
+  font-family: 'Arial', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, CheckCircle, Zap, Shield, TrendingUp } from "lucide-react";
+import { ArrowRight, Shield, Zap, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+// import "./Home.css"; // Optional: if you move CSS below into a separate file, else you can keep it in app.css
 
 const Home = () => {
   const features = [
@@ -29,107 +31,93 @@ const Home = () => {
     { value: "24/7", label: "Technical Support" },
   ];
 
+  // 🌟 Background scroll/mousemove effect
+  useEffect(() => {
+    const bg = document.querySelector(".parallax-bg") as HTMLElement | null;
+    if (!bg) return;
+
+    const windowWidth = window.innerWidth / 5;
+    const windowHeight = window.innerHeight / 5;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const mouseX = e.clientX / windowWidth;
+      const mouseY = e.clientY / windowHeight;
+      bg.style.transform = `translate3d(-${mouseX}%, -${mouseY}%, 0)`;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   return (
     <div className="min-h-screen">
-      {/* Hero Section with Parallax */}
-      <section className="parallax-container relative min-h-screen flex items-center bg-gradient-hero overflow-hidden">
-        {/* Animated background grid */}
-        <div className="absolute inset-0 industrial-grid opacity-10" />
-        
-        {/* Animated circles */}
-        <motion.div
-          className="absolute -right-40 -top-40 h-96 w-96 rounded-full bg-accent/20 blur-3xl"
-          animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.3, 0.2] }}
-          transition={{ duration: 8, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute -left-40 -bottom-40 h-96 w-96 rounded-full bg-accent/20 blur-3xl"
-          animate={{ scale: [1.2, 1, 1.2], opacity: [0.3, 0.2, 0.3] }}
-          transition={{ duration: 8, repeat: Infinity }}
-        />
+      {/* Hero Section with Parallax Background */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero">
+        <div
+          className="parallax-bg absolute inset-0 bg-cover bg-center transition-transform duration-300 ease-out"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1452723312111-3a7d0db0e024?auto=format&fit=crop&w=1920&q=80')",
+          }}
+        ></div>
 
-        <div className="container relative z-10 mx-auto px-4 pt-20">
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            {/* Hero Content */}
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              {/* Promo Badge */}
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/60"></div>
+
+        {/* Hero Content */}
+        <div className="relative z-10 container mx-auto px-6 text-center">
+          <motion.h1
+            className="mb-6 text-5xl font-bold leading-tight text-white md:text-7xl"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+          >
+            Forging The Future Of{" "}
+            <span className="text-accent">Industrial Excellence</span>
+          </motion.h1>
+
+          <motion.p
+            className="mb-8 text-lg text-white/80 md:text-xl max-w-2xl mx-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            Leading manufacturer of precision industrial equipment and automation solutions. Engineering excellence for over three decades.
+          </motion.p>
+
+          <motion.div
+            className="flex flex-wrap justify-center gap-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+          >
+            <Link to="/products">
+              <Button size="lg" className="group bg-accent hover:bg-accent/90 shadow-accent">
+                Explore Products
+                <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
+            <Link to="/contact">
+              <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10">
+                Get Consultation
+              </Button>
+            </Link>
+          </motion.div>
+
+          {/* Quick Stats */}
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-white">
+            {stats.map((stat, index) => (
               <motion.div
-                className="mb-6 inline-flex items-center gap-2 rounded-full bg-accent/10 px-4 py-2 backdrop-blur-sm"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
+                key={stat.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 1 + index * 0.1 }}
               >
-                <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
-                <span className="text-sm font-medium text-white">Middle East Energy Expo - 2025</span>
+                <div className="text-4xl font-bold text-accent">{stat.value}</div>
+                <div className="text-sm text-white/70">{stat.label}</div>
               </motion.div>
-
-              <h1 className="mb-6 text-5xl font-bold leading-tight text-white md:text-7xl">
-                Forging The Future Of{" "}
-                <span className="text-accent">Industrial Excellence</span>
-              </h1>
-              
-              <p className="mb-8 text-lg text-white/80 md:text-xl">
-                Leading manufacturer of precision industrial equipment and automation solutions.
-                Engineering excellence for over three decades.
-              </p>
-
-              <div className="flex flex-wrap gap-4">
-                <Link to="/products">
-                  <Button size="lg" className="group bg-accent hover:bg-accent/90 shadow-accent">
-                    Explore Products
-                    <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
-                  </Button>
-                </Link>
-                <Link to="/contact">
-                  <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10">
-                    Get Consultation
-                  </Button>
-                </Link>
-              </div>
-
-              {/* Quick Stats */}
-              <div className="mt-12 grid grid-cols-2 gap-6 md:grid-cols-4">
-                {stats.map((stat, index) => (
-                  <motion.div
-                    key={stat.label}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.8 + index * 0.1 }}
-                  >
-                    <div className="text-3xl font-bold text-accent">{stat.value}</div>
-                    <div className="text-sm text-white/70">{stat.label}</div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Hero Image/Animation */}
-            <motion.div
-              className="relative"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.3 }}
-            >
-              <div className="relative aspect-square">
-                <motion.div
-                  className="absolute inset-0 rounded-3xl bg-gradient-card shadow-accent"
-                  animate={{ rotateY: [0, 5, 0], rotateX: [0, 5, 0] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                  style={{ transformStyle: "preserve-3d" }}
-                />
-                {/* Placeholder for actual image */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="mb-4 text-6xl font-bold text-accent">SFL</div>
-                    <div className="text-xl text-white/80">Industrial Solutions</div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -145,10 +133,19 @@ const Home = () => {
           >
             <h2 className="mb-4 text-4xl font-bold text-foreground md:text-5xl">
               Why Choose <span className="text-accent">SFL Forge</span>
+            
             </h2>
+            
+            
             <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
               Delivering innovative industrial solutions with unmatched precision and reliability
             </p>
+            <Link to="/products">
+              <Button size="lg" className="group bg-accent hover:bg-accent/90 shadow-accent">
+                Explore Products
+                <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
           </motion.div>
 
           <div className="grid gap-8 md:grid-cols-3">

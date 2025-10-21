@@ -1,6 +1,19 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import "./Loader.css"; // Make sure this file exists
 
 export const Loader = () => {
+  const [animateBurst, setAnimateBurst] = useState(false);
+
+  useEffect(() => {
+    // Trigger burst animation on mount
+    setAnimateBurst(true);
+
+    // Remove after animation duration (0.8s)
+    const timer = setTimeout(() => setAnimateBurst(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-hero">
       <div className="relative">
@@ -11,7 +24,7 @@ export const Loader = () => {
           animate={{ rotate: 360 }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
         />
-        
+
         {/* Inner pulsing circle */}
         <motion.div
           className="absolute inset-0 m-auto rounded-full bg-accent"
@@ -19,13 +32,19 @@ export const Loader = () => {
           animate={{ scale: [1, 1.2, 1], opacity: [1, 0.6, 1] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         />
-        
-        {/* Center logo/text */}
+
+        {/* Center logo/text with burst effect */}
         <div className="relative z-10 flex h-20 w-20 items-center justify-center">
-          <span className="text-2xl font-bold text-white">SFL</span>
+          <span
+            className={`text-2xl font-bold text-white relative explosive-text ${
+              animateBurst ? "animate-burst" : ""
+            }`}
+          >
+            SFL
+          </span>
         </div>
       </div>
-      
+
       {/* Loading text */}
       <motion.p
         className="absolute bottom-1/3 text-lg font-medium text-white/80"
@@ -34,19 +53,6 @@ export const Loader = () => {
       >
         Loading Experience...
       </motion.p>
-    </div>
-  );
-};
-
-export const PageLoader = () => {
-  return (
-    <div className="flex min-h-[400px] items-center justify-center">
-      <div className="relative">
-        <div className="h-16 w-16 animate-spin rounded-full border-4 border-muted border-t-accent" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="h-8 w-8 animate-pulse rounded-full bg-accent/20" />
-        </div>
-      </div>
     </div>
   );
 };

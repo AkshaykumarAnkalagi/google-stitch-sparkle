@@ -26,6 +26,46 @@ const App = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Global magnetic particle effect
+  useEffect(() => {
+    const addMagneticEffect = () => {
+      const buttons = document.querySelectorAll<HTMLButtonElement>("button");
+
+      buttons.forEach(button => {
+        if (!button.classList.contains("magnetic")) {
+          button.classList.add("magnetic");
+        }
+
+        if (!button.querySelector(".particles-field")) {
+          const field = document.createElement("div");
+          field.className = "particles-field";
+
+          for (let i = 0; i < 30; i++) {
+            const p = document.createElement("div");
+            p.className = "particle";
+            p.style.setProperty("--x", `${Math.random() * 200 - 100}px`);
+            p.style.setProperty("--y", `${Math.random() * 200 - 100}px`);
+            p.style.animation = `particleFloat ${1 + Math.random() * 2}s infinite`;
+            p.style.left = `${Math.random() * 100}%`;
+            p.style.top = `${Math.random() * 100}%`;
+            field.appendChild(p);
+          }
+
+          button.appendChild(field);
+        }
+      });
+    };
+
+    // Initial run
+    addMagneticEffect();
+
+    // Observe DOM changes to handle dynamically added buttons
+    const observer = new MutationObserver(addMagneticEffect);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, []);
+
   if (isLoading) {
     return <Loader />;
   }
