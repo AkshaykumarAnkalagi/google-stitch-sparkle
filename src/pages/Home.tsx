@@ -204,23 +204,36 @@ const Home = () => {
           </motion.div>
 
           {/* Features Cards */}
-          <div className="grid gap-8 md:grid-cols-3">
-            {features.map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                className="group relative overflow-hidden rounded-2xl bg-gradient-card p-8 shadow-card hover-lift"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.2 }}
-              >
-                <div className="absolute inset-0 bg-gradient-accent opacity-0 transition-opacity group-hover:opacity-10" />
-                <feature.icon className="mb-4 h-12 w-12 text-accent transition-all duration-500 group-hover:text-orange-500 group-hover:drop-shadow-[0_0_10px_rgba(255,165,0,0.7)]" />
-                <h3 className="mb-3 text-xl font-bold text-foreground">{feature.title}</h3>
-                <p className="text-muted-foreground">{feature.description}</p>
-              </motion.div>
-            ))}
-          </div>
+          {/* Features Cards */}
+<div className="grid gap-8 md:grid-cols-3">
+  {features.map((feature, index) => (
+    <motion.div
+      key={feature.title}
+      className="group relative rounded-2xl bg-gradient-to-b from-accent/10 to-transparent p-8 text-center shadow-card transition-all duration-500 hover:shadow-[0_0_25px_rgba(255,115,0,0.6)] hover:from-accent/40 hover:to-accent/10"
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      whileHover={{ y: -8, scale: 1.03 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1 }}
+    >
+      {/* Icon with hover accent */}
+      <div className="mb-4 flex justify-center">
+        <div className="rounded-full bg-accent/10 p-4 transition-colors group-hover:bg-accent">
+          <feature.icon className="h-10 w-10 text-accent transition-colors group-hover:text-white" />
+        </div>
+      </div>
+
+      {/* Title & Description */}
+      <h3 className="mb-3 text-xl font-bold text-foreground group-hover:text-accent">
+        {feature.title}
+      </h3>
+      <p className="text-muted-foreground group-hover:text-foreground/90">
+        {feature.description}
+      </p>
+    </motion.div>
+  ))}
+</div>
+
         </div>
       </section>
 

@@ -40,27 +40,27 @@ const Products = () => {
             {mainCategories.map((cat, index) => (
               <motion.div
                 key={cat.name}
-                className="group rounded-2xl bg-gradient-card p-6 text-center shadow-card transition-all hover:shadow-accent cursor-default"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                className="group relative rounded-2xl bg-gradient-to-b from-accent/10 to-transparent p-6 text-center shadow-card transition-all duration-500 hover:shadow-[0_0_25px_rgba(255,115,0,0.6)] hover:from-accent/40 hover:to-accent/10 cursor-default"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                whileHover={{ y: -8, scale: 1.03 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -8, scale: 1.02 }}
               >
                 <div className="mb-4 flex justify-center">
                   <div className="rounded-full bg-accent/10 p-4 transition-colors group-hover:bg-accent">
                     <cat.icon className="h-8 w-8 text-accent transition-colors group-hover:text-white" />
                   </div>
                 </div>
-                <h3 className="mb-2 text-lg font-bold text-foreground">{cat.name}</h3>
-                <p className="text-sm text-muted-foreground">{cat.count}</p>
+                <h3 className="mb-2 text-lg font-bold text-foreground group-hover:text-accent">{cat.name}</h3>
+                <p className="text-sm text-muted-foreground group-hover:text-foreground/90">{cat.count}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Product Categories (Clickable) */}
+      {/* Product Categories */}
       <section className="bg-muted py-24">
         <div className="container mx-auto px-4">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -70,19 +70,21 @@ const Products = () => {
                 className="group relative w-full max-w-sm mx-auto cursor-pointer"
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
+                whileHover={{ y: -8, scale: 1.03 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -8, scale: 1.03 }}
                 onClick={() => (window.location.href = `/category/${prod.category.toLowerCase()}`)}
               >
-                <div className="relative overflow-hidden rounded-2xl bg-white shadow-xl transition-all duration-500 group-hover:shadow-2xl">
+                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-accent/10 to-transparent shadow-card transition-all duration-500 hover:shadow-[0_0_25px_rgba(255,115,0,0.6)] hover:from-accent/40 hover:to-accent/10">
                   <div className="bg-accent h-32 flex items-center justify-center text-white text-4xl font-bold">
                     {prod.title.split(" ")[0]}
                   </div>
 
                   <div className="max-h-0 opacity-0 overflow-hidden transition-all duration-700 ease-in-out group-hover:max-h-[500px] group-hover:opacity-100 bg-white px-6 pb-8 pt-6 text-center">
                     <h3 className="mb-2 text-xl font-bold text-foreground">{prod.title}</h3>
-                    <p className="text-sm text-muted-foreground">Click to view all {prod.category.toLowerCase()} products</p>
+                    <p className="text-sm text-muted-foreground">
+                      Click to view all {prod.category.toLowerCase()} products
+                    </p>
                     <Button className="mt-2 w-full bg-accent hover:bg-accent/90">View All</Button>
                   </div>
                 </div>
