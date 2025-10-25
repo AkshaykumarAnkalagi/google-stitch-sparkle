@@ -95,8 +95,8 @@ const Process = () => {
                   <div className="flex flex-col lg:flex-row lg:items-start lg:gap-12">
                     {/* Icon and Number */}
                     <div className="relative z-10 mb-6 flex items-center gap-6 lg:mb-0">
-                      <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-accent shadow-accent">
-                        <step.icon className="h-8 w-8 text-white" />
+                      <div className="group flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-accent shadow-accent transition-colors duration-300">
+                        <step.icon className="h-8 w-8 text-white group-hover:text-orange-500 transition-colors duration-300" />
                       </div>
                       <div className="text-6xl font-bold text-accent/20 lg:hidden">
                         0{index + 1}
@@ -119,7 +119,7 @@ const Process = () => {
                             0{index + 1}
                           </div>
                         </div>
-                        
+
                         <p className="mb-6 text-lg text-muted-foreground">
                           {step.description}
                         </p>
@@ -145,7 +145,7 @@ const Process = () => {
         </div>
       </section>
 
-      {/* Quality Assurance Section */}
+      {/* Quality Assurance / ISO Certifications */}
       <section className="bg-muted py-24">
         <div className="container mx-auto px-4">
           <motion.div
@@ -163,34 +163,29 @@ const Process = () => {
 
             <div className="grid gap-8 md:grid-cols-3">
               {[
-                {
-                  title: "ISO 9001:2015",
-                  description: "Quality Management Systems",
-                },
-                {
-                  title: "ISO 14001:2015",
-                  description: "Environmental Management",
-                },
-                {
-                  title: "ISO 45001:2018",
-                  description: "Occupational Health & Safety",
-                },
+                { title: "ISO 9001:2015", description: "Quality Management Systems" },
+                { title: "ISO 14001:2015", description: "Environmental Management" },
+                { title: "ISO 45001:2018", description: "Occupational Health & Safety" },
               ].map((cert, index) => (
                 <motion.div
                   key={cert.title}
-                  className="rounded-2xl bg-card p-8 shadow-card hover-lift"
+                  className="group relative rounded-2xl bg-card p-8 shadow-card hover-lift transition-all duration-500"
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
                   <div className="mb-4 flex justify-center">
-                    <div className="rounded-full bg-accent/10 p-4">
-                      <CheckCircle className="h-8 w-8 text-accent" />
+                    <div className="rounded-full bg-accent/10 p-4 transition-colors group-hover:bg-accent">
+                      <CheckCircle className="h-8 w-8 text-accent transition-colors group-hover:text-orange-500" />
                     </div>
                   </div>
-                  <h3 className="mb-2 text-xl font-bold text-foreground">{cert.title}</h3>
-                  <p className="text-muted-foreground">{cert.description}</p>
+                  <h3 className="mb-2 text-xl font-bold text-foreground group-hover:text-accent">
+                    {cert.title}
+                  </h3>
+                  <p className="text-muted-foreground group-hover:text-foreground/90">
+                    {cert.description}
+                  </p>
                 </motion.div>
               ))}
             </div>

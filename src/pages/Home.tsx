@@ -3,14 +3,22 @@ import { motion } from "framer-motion";
 import { ArrowRight, Shield, Zap, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-// import "./Home.css"; // Optional: if you move CSS below into a separate file, else you can keep it in app.css
+
+// Demo product categories for Home page
+const productCategories = [
+  { category: "Nut", title: "Nuts" },
+  { category: "Bolt", title: "Bolts" },
+  { category: "Screw", title: "Screws" },
+  { category: "Other", title: "Other Products" },
+];
 
 const Home = () => {
   const features = [
     {
       icon: Zap,
       title: "Advanced Automation",
-      description: "State-of-the-art manufacturing processes with Industry 4.0 technology",
+      description:
+        "State-of-the-art manufacturing processes with Industry 4.0 technology",
     },
     {
       icon: Shield,
@@ -82,7 +90,8 @@ const Home = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
-            Leading manufacturer of precision industrial equipment and automation solutions. Engineering excellence for over three decades.
+            Leading manufacturer of precision industrial equipment and automation
+            solutions. Engineering excellence for over three decades.
           </motion.p>
 
           <motion.div
@@ -92,13 +101,20 @@ const Home = () => {
             transition={{ delay: 0.8 }}
           >
             <Link to="/products">
-              <Button size="lg" className="group bg-accent hover:bg-accent/90 shadow-accent">
+              <Button
+                size="lg"
+                className="group bg-accent hover:bg-accent/90 shadow-accent"
+              >
                 Explore Products
                 <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
             <Link to="/contact">
-              <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white/20 text-white hover:bg-white/10"
+              >
                 Get Consultation
               </Button>
             </Link>
@@ -133,21 +149,61 @@ const Home = () => {
           >
             <h2 className="mb-4 text-4xl font-bold text-foreground md:text-5xl">
               Why Choose <span className="text-accent">SFL Forge</span>
-            
             </h2>
-            
-            
-            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-              Delivering innovative industrial solutions with unmatched precision and reliability
+
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground mb-8">
+              Delivering innovative industrial solutions with unmatched precision
+              and reliability
             </p>
+
+            {/* Product Categories */}
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 mb-8">
+              {productCategories.map((prod, index) => (
+                <motion.div
+                  key={prod.category}
+                  className="group relative w-full max-w-sm mx-auto cursor-pointer"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ y: -8, scale: 1.03 }}
+                  onClick={() =>
+                    (window.location.href = `/category/${prod.category}`)
+                  }
+                >
+                  <div className="relative overflow-hidden rounded-2xl bg-white shadow-xl transition-all duration-500 group-hover:shadow-2xl">
+                    <div className="bg-accent h-32 flex items-center justify-center text-white text-4xl font-bold">
+                      {prod.title.split(" ")[0]}
+                    </div>
+                    <div className="max-h-0 opacity-0 overflow-hidden transition-all duration-700 ease-in-out group-hover:max-h-[500px] group-hover:opacity-100 bg-white px-6 pb-8 pt-6 text-center">
+                      <h3 className="mb-2 text-xl font-bold text-foreground">
+                        {prod.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        Click to view all {prod.category} products
+                      </p>
+                      <Button className="mt-2 w-full bg-accent text-white hover:bg-accent/90 transition">
+                        View All
+                      </Button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Explore Products Button */}
             <Link to="/products">
-              <Button size="lg" className="group bg-accent hover:bg-accent/90 shadow-accent">
+              <Button
+                size="lg"
+                className="group bg-accent hover:bg-accent/90 shadow-accent"
+              >
                 Explore Products
                 <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
           </motion.div>
 
+          {/* Features Cards */}
           <div className="grid gap-8 md:grid-cols-3">
             {features.map((feature, index) => (
               <motion.div
@@ -159,7 +215,7 @@ const Home = () => {
                 transition={{ delay: index * 0.2 }}
               >
                 <div className="absolute inset-0 bg-gradient-accent opacity-0 transition-opacity group-hover:opacity-10" />
-                <feature.icon className="mb-4 h-12 w-12 text-accent" />
+                <feature.icon className="mb-4 h-12 w-12 text-accent transition-all duration-500 group-hover:text-orange-500 group-hover:drop-shadow-[0_0_10px_rgba(255,165,0,0.7)]" />
                 <h3 className="mb-3 text-xl font-bold text-foreground">{feature.title}</h3>
                 <p className="text-muted-foreground">{feature.description}</p>
               </motion.div>
@@ -180,7 +236,8 @@ const Home = () => {
               Ready to Transform Your Production?
             </h2>
             <p className="mx-auto mb-8 max-w-2xl text-lg text-white/80">
-              Partner with SFL Forge for cutting-edge industrial solutions tailored to your needs
+              Partner with SFL Forge for cutting-edge industrial solutions tailored
+              to your needs
             </p>
             <Link to="/contact">
               <Button size="lg" className="bg-accent hover:bg-accent/90 shadow-accent">

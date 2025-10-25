@@ -1,15 +1,16 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Loader } from "@/components/Loader";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Products from "./pages/Products";
+import Category from "./pages/Category";
 import Process from "./pages/Process";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
@@ -19,10 +20,9 @@ const queryClient = new QueryClient();
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
 
+  // Loader
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    const timer = setTimeout(() => setIsLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -31,7 +31,7 @@ const App = () => {
     const addMagneticEffect = () => {
       const buttons = document.querySelectorAll<HTMLButtonElement>("button");
 
-      buttons.forEach(button => {
+      buttons.forEach((button) => {
         if (!button.classList.contains("magnetic")) {
           button.classList.add("magnetic");
         }
@@ -66,9 +66,7 @@ const App = () => {
     return () => observer.disconnect();
   }, []);
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  if (isLoading) return <Loader />;
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -81,6 +79,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/category/:categoryName" element={<Category />} />
             <Route path="/process" element={<Process />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFound />} />

@@ -17,11 +17,22 @@ const Navigation = () => {
   const [isDesktopMenuOpen, setIsDesktopMenuOpen] = useState(false);
   const location = useLocation();
 
+  // Handle scroll: update header and close open menus
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+      setIsMobileMenuOpen(false);
+      setIsDesktopMenuOpen(false);
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close menus when location changes (navigating to a new page)
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+    setIsDesktopMenuOpen(false);
+  }, [location.pathname]);
 
   const dropdownVariants = {
     hidden: { opacity: 0 },
@@ -56,13 +67,16 @@ const Navigation = () => {
             </div>
           </Link>
 
-          {/* Desktop Menu Button */}
+          {/* Desktop Menu Button - centered on desktop */}
           <div
-            className="hidden md:flex items-center relative"
+            className="hidden md:flex items-center justify-center flex-1 relative"
             onMouseEnter={() => setIsDesktopMenuOpen(true)}
             onMouseLeave={() => setIsDesktopMenuOpen(false)}
           >
-            <Button variant="default" className="bg-accent hover:bg-accent/90">
+            <Button
+              variant="default"
+              className="bg-accent hover:bg-accent/90 text-white font-semibold transition-all duration-300 rounded-xl px-6 py-3 text-base"
+            >
               Menu
             </Button>
 
@@ -70,29 +84,30 @@ const Navigation = () => {
             <AnimatePresence>
               {isDesktopMenuOpen && (
                 <motion.div
-                  className="absolute top-14 left-0 w-48 bg-primary/95 backdrop-blur-lg flex flex-col py-4 rounded-lg shadow-lg"
+                  className="absolute top-14 w-56 bg-primary/95 backdrop-blur-lg flex flex-col py-4 rounded-lg shadow-lg"
                   initial="hidden"
                   animate="visible"
                   exit="exit"
                   variants={dropdownVariants}
                 >
                   {navLinks.map((link) => (
-                    <motion.div
-                      key={link.path}
-                      variants={itemVariants}
-                    >
+                    <motion.div key={link.path} variants={itemVariants}>
                       <Link
                         to={link.path}
                         className={`block px-4 py-2 text-white/90 hover:bg-accent/80 hover:text-white rounded-md ${
                           location.pathname === link.path ? "bg-accent text-white" : ""
                         }`}
+                        onClick={() => setIsDesktopMenuOpen(false)}
                       >
                         {link.name}
                       </Link>
                     </motion.div>
                   ))}
                   <motion.div variants={itemVariants} className="px-4 mt-2">
-                    <Button className="w-full bg-accent hover:bg-accent/90">
+                    <Button
+                      className="w-full bg-accent hover:bg-accent/90"
+                      onClick={() => setIsDesktopMenuOpen(false)}
+                    >
                       Get Quote
                     </Button>
                   </motion.div>
@@ -101,11 +116,11 @@ const Navigation = () => {
             </AnimatePresence>
           </div>
 
-          {/* Mobile Hamburger */}
-          <div className="md:hidden">
+          {/* Mobile Hamburger Button - top-left on small screens */}
+          <div className="md:hidden flex justify-start">
             <Button
               variant="default"
-              className="bg-accent hover:bg-accent/90"
+              className="bg-accent hover:bg-accent/90 text-white font-semibold rounded-lg px-4 py-2 text-sm"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               Menu
@@ -128,12 +143,12 @@ const Navigation = () => {
               <motion.div key={link.path} variants={itemVariants} className="w-3/4">
                 <Link
                   to={link.path}
-                  onClick={() => setIsMobileMenuOpen(false)}
                   className={`block text-center text-lg font-medium py-3 rounded-lg ${
                     location.pathname === link.path
                       ? "bg-accent text-white"
                       : "text-white/90 hover:bg-accent/80 hover:text-white"
                   }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.name}
                 </Link>
